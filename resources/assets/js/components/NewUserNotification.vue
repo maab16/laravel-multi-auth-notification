@@ -57,5 +57,12 @@
         },
 
       },
+      mounted(){
+          Echo.private('App.Admin.' + this.userid)
+              .notification((notification) => {
+                  let newUnreadNotification = {data:{message:notification.message}};
+                  this.unreadNotifications.push(newUnreadNotification);
+              });
+      },
     }
 </script>

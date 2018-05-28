@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class NewUserRegistrationNotification extends Notification
 {
@@ -29,7 +30,7 @@ class NewUserRegistrationNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -71,5 +72,19 @@ class NewUserRegistrationNotification extends Notification
             'name' => 'Jhon Doe',
             'email' => 'jhon@gmail.com'
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'name' => 'Jhon Doe',
+            'email' => 'jhon@gmail.com'
+        ]);
     }
 }

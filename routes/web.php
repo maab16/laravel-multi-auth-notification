@@ -1,5 +1,7 @@
 <?php
 
+use App\Admin;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,3 +49,17 @@ Route::group(['middleware'=>'guest:admin','prefix'=>'admin','namespace'=>'Admin'
 Route::get('verify/{email}/{verify_token}','Admin\RegisterController@verifyRegistrationEmail')->name('verifyEmail');
 
 Route::get('admin/subscriber','SubscriberController@index');
+
+Route::get('/notifications/{user}',function(Admin $user){
+	return  [
+			'unreadNotifications' => $user->unreadNotifications,
+		];
+});
+
+Route::get('/mark_notification_as_read/{user}',function(Admin $user){
+	$user->unreadNotifications->markAsRead();
+	return  [
+			'readNotifications' => $user->notifications,
+			'unreadNotifications' => [],
+		];
+});

@@ -29,7 +29,7 @@ class NewUserRegistrationNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -56,6 +56,20 @@ class NewUserRegistrationNotification extends Notification
     {
         return [
             //
+        ];
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'name' => 'Jhon Doe',
+            'email' => 'jhon@gmail.com'
         ];
     }
 }

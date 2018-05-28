@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\verificationMail;
+use App\Notifications\NewUserRegistrationNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -90,6 +92,12 @@ class RegisterController extends Controller
             Session::flash('verify_message','Your account created successfully! Please verify your email for active account');
             $userDetails = Admin::findOrFail($user->id);
             $this->sendVerificationEmail($userDetails);
+            $admins = Admin::whereHas('role', function($q){
+                        $q->where('slug', 'admin');
+                    })->get();
+
+            Notification::send($admins, new NewUserRegistrationNotification($user));
+            //$admin->notify(new NewUserRegistrationNotification($user));
         }
         return $user;
     }

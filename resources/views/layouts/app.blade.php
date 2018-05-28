@@ -44,6 +44,25 @@
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
+                            <li>
+                                <div class="dropdown show">
+                                  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Notifications <span class="badge badge-light">{{ Auth::check() ? Auth::user()->unreadNotifications->count() : 0 }}</span>
+                                  </a>
+
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:auto;right:0;width:300px">
+                                    @if(Auth::user()->unreadNotifications->count() > 0)
+                                    <ul style="list-style-type:none;margin:0px;padding:0px;">
+                                        @foreach(Auth::user()->unreadNotifications as $unread_notification)
+                                      <li style="background-color:#ddd;margin-bottom:2px" >
+                                          <a href="" style="color:green;padding:3px 5px;">{{ $unread_notification->data["name"] }}</a>
+                                      </li>
+                                      @endforeach
+                                    </ul>
+                                    @endif
+                                  </div>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

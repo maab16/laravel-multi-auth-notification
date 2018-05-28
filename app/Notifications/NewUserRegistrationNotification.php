@@ -12,14 +12,16 @@ class NewUserRegistrationNotification extends Notification
 {
     use Queueable;
 
+    public $user;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -69,8 +71,8 @@ class NewUserRegistrationNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'name' => 'Jhon Doe',
-            'email' => 'jhon@gmail.com'
+            'name' => $this->user->name ? $this->user->name : 'Jhon Doe',
+            'email' => $this->user->email ? $this->user->email : 'jhondoe@email.com',
         ];
     }
 
@@ -83,8 +85,8 @@ class NewUserRegistrationNotification extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'name' => 'Jhon Doe',
-            'email' => 'jhon@gmail.com'
+            'name' => $this->user->name ? $this->user->name : 'Jhon Doe',
+            'email' => $this->user->email ? $this->user->email : 'jhondoe@email.com',
         ]);
     }
 }

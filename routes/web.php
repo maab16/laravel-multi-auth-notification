@@ -48,6 +48,9 @@ Route::group(['middleware'=>'guest:admin','prefix'=>'admin','namespace'=>'Admin'
 // Admin Verify Account
 Route::get('verify/{email}/{verify_token}','Admin\RegisterController@verifyRegistrationEmail')->name('verifyEmail');
 
+// User Verify
+Route::get('user/verify/{email}/{verify_token}','Auth\RegisterController@verifyRegistrationEmail')->name('userVerifyEmail');
+
 Route::get('admin/subscriber','SubscriberController@index');
 
 Route::get('/notifications/{user}',function(Admin $user){

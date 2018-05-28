@@ -17,7 +17,7 @@ class ModaratorMiddleware
     public function handle($request, Closure $next)
     {
         foreach (Auth::user()->role as $role) {
-            if($role->name == 'modarator'){
+            if($role->slug == 'modarator'){
                  return $next($request);
             }
         }

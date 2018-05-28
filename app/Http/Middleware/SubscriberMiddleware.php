@@ -17,7 +17,7 @@ class SubscriberMiddleware
     public function handle($request, Closure $next)
     {
         foreach (Auth::user()->role as $role) {
-            if($role->name == 'subscriber'){
+            if($role->slug == 'subscriber'){
                  return $next($request);
             }
         }
